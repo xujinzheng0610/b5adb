@@ -11,9 +11,10 @@ const PORT = process.env.PORT || 3000
 
 const app = next({dir: "./app", dev})
 const handle = app.getRequestHandler()
-
 const getRoutes = require('./routes/index')
 const routes = getRoutes()
+
+const models = require("./db/model")
 
 app.prepare().then(() => {
     const server = express()
@@ -42,10 +43,14 @@ app.prepare().then(() => {
         handle(req, res)
     })
 
-    server.listen(PORT, err => {
-        if(err) throw err
-        console.log(`> Ready on http://localhost:${PORT}`)
+    models.sequelize.sync().then(function(){
+        server.listen(PORT, err => {
+            if(err) throw err
+            console.log(`> Ready on http://localhost:${PORT}`)
+        })
     })
+    
+
 
 
 }).catch(err => {
