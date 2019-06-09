@@ -34,7 +34,7 @@ class AuthController {
     }
 
     signin(req, res, next){
-        res.json({ token: tokenForUser(req.user)})
+        res.status(200).json({ token: tokenForUser(req.user)})
     }
 }
 
