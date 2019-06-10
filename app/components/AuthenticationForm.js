@@ -1,6 +1,19 @@
 import React, {Component} from 'react'
 import {Form, Input, Button} from 'antd'
 import fetch from 'isomorphic-unfetch'
+import {LOGIN, REGISTER} from "../pages"
+
+const RegisterFields = props =>  {
+    return<>
+        <Form.Item>
+            {
+                props.getFieldDecorator("email", {rules: [{required: true, message: "Please enter valid email"}] })(
+                    <Input name="email" placeholder="Please enter your email"/>
+                )
+            }
+        </Form.Item>
+    </>
+}
 
 class AuthenticationForm extends Component {
     constructor(props){
@@ -8,30 +21,43 @@ class AuthenticationForm extends Component {
         this.state = {
             username: "",
             password: "",
-            loginError: false
+            error: false,
+            success: false
         }
+        this.view = {
+            login:{
+                path: "/signin",
+                name: "Login"
+            },
+            register:{
+                path: "/signup",
+                name: "Register"
+            }
+        }
+        if (this.props.view === LOGIN) this.vManager = this.view.login
+        else this.vManager = this.view.register
     }
 
     handleSubmit = e => {
         e.preventDefault()
         this.props.form.validateFields((err, values) => {
-            fetch("/signin", {
+            fetch(this.vManager.path, {
                 method: "post",
                 headers: {
                     Accpet: "application/json",
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(values)
-            }).then(async res => {
-                res.status !== 200 && this.setState({loginError: true})
-                return await res.json()
-            }).then(data => {
+            }).then(res => res.json()
+            ).then(data => {
                 if(data.token){
                     localStorage.setItem("b5aDBtoken", data.token)
-                    console.log("logged in!!")
                 }
+                this.setState({error: false, success: true})
+                console.log("success, current state is ", this.state)
+                console.log("data returned:", data)
             }).catch(err => {
-                if (err) this.setState({loginError: true})
+                if (err) this.setState({error: true,  success: false})
             })
         })
     }
@@ -42,7 +68,9 @@ class AuthenticationForm extends Component {
 
         return(
             <Form layout="inline" onSubmit={this.handleSubmit}>
-                { this.state.loginError && <p>LOGIN ERROR!</p>}
+                { this.state.success && (<p> {this.vManager.name} successful!</p>)}
+                { this.state.error && (<p>{this.vManager.name} ERROR!</p>)}
+                
                 <Form.Item>
                     {
                         getFieldDecorator("username", {rules: [{required: true, message: "Please enter valid username"}] })(
@@ -56,11 +84,13 @@ class AuthenticationForm extends Component {
                             <Input name="password" type="password" placeholder="Please enter your password"/>
                         )
                     }
-                    
                 </Form.Item>
+                {this.props.view === REGISTER && (
+                    <RegisterFields getFieldDecorator={getFieldDecorator} />
+                )}
                 <Form.Item>
                     <Button type="primary" htmlType="submit">
-                        Login
+                        {this.vManager.name}
                     </Button>
                 </Form.Item>
             </Form>

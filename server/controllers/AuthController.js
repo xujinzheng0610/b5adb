@@ -24,13 +24,11 @@ class AuthController {
                     password,
                     email
                 }).then(user => {
+                    delete user.password
                     res.json(user)
                 })
             }
-
-
         })
-
     }
 
     signin(req, res, next){
