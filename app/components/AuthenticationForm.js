@@ -6,6 +6,7 @@ import {LOGIN, REGISTER} from "../pages"
 const RegisterFields = props =>  {
     return<>
         <Form.Item>
+            Email: 
             {
                 props.getFieldDecorator("email", {rules: [{required: true, message: "Please enter valid email"}] })(
                     <Input name="email" placeholder="Please enter your email"/>
@@ -67,11 +68,12 @@ class AuthenticationForm extends Component {
         const {getFieldDecorator} = this.props.form
 
         return(
-            <Form layout="inline" onSubmit={this.handleSubmit}>
+            <Form onSubmit={this.handleSubmit}>
                 { this.state.success && (<p> {this.vManager.name} successful!</p>)}
                 { this.state.error && (<p>{this.vManager.name} ERROR!</p>)}
                 
                 <Form.Item>
+                    Username: 
                     {
                         getFieldDecorator("username", {rules: [{required: true, message: "Please enter valid username"}] })(
                             <Input name="username" placeholder="Please enter your username"/>
@@ -79,6 +81,7 @@ class AuthenticationForm extends Component {
                     }
                 </Form.Item>
                 <Form.Item>
+                    Password:
                     {
                         getFieldDecorator("password", {rules: [{required: true, message: "Please enter valid password"}] })(
                             <Input name="password" type="password" placeholder="Please enter your password"/>

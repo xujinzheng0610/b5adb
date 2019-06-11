@@ -8,8 +8,7 @@ export const REGISTER = "register"
 
 const Index = props => (
     <Page>
-        <h1>Hello from NEXTJS</h1>
-        <DatePicker/>
+        <h1>BridgeA Asia Database Management</h1>
         <AuthenticationForm view={LOGIN}/>
     </Page>
 )
