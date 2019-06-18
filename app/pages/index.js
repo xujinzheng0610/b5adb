@@ -1,16 +1,28 @@
-import Page from '../layouts/page'
-import {DatePicker} from "antd"
+import { connect } from 'react-redux'
+
+import LayoutDesign from '../layouts/layoutDesign'
 import AuthenticationForm from "../components/AuthenticationForm"
+import Project from '../components/ProjectData'
+
+
 
 export const LOGIN = "login"
 export const REGISTER = "register"
 
-
 const Index = props => (
-    <Page>
-        <h1>BridgeA Asia Database Management</h1>
-        <AuthenticationForm view={LOGIN}/>
-    </Page>
+    <LayoutDesign>
+        {
+        props.loggedIn ? (<Project></Project>) : (<div>
+            <h1>Welcome to BridgeA Asia Database Management</h1>
+            <AuthenticationForm view={LOGIN}/>
+        </div>)
+        }
+    </LayoutDesign>    
 )
 
-export default Index
+const mapStateToProps = ({ loggedIn }) => ({ loggedIn })
+
+export default connect(
+  mapStateToProps
+)(Index)
+

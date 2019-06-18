@@ -2,6 +2,9 @@ import React, {Component} from 'react'
 import {Form, Input, Button} from 'antd'
 import fetch from 'isomorphic-unfetch'
 import {LOGIN, REGISTER} from "../pages"
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { runLogin } from '../store'
 
 const RegisterFields = props =>  {
     return<>
@@ -39,6 +42,10 @@ class AuthenticationForm extends Component {
         else this.vManager = this.view.register
     }
 
+    updateLogin = () => {
+        this.props.runLogin()        
+    }
+
     handleSubmit = e => {
         e.preventDefault()
         this.props.form.validateFields((err, values) => {
@@ -55,10 +62,11 @@ class AuthenticationForm extends Component {
                     localStorage.setItem("b5aDBtoken", data.token)
                 }
                 this.setState({error: false, success: true})
-                console.log("success, current state is ", this.state)
-                console.log("data returned:", data)
+                this.updateLogin()
+                console.log("success, data returned:", data)
             }).catch(err => {
                 if (err) this.setState({error: true,  success: false})
+                console.log(err)
             })
         })
     }
@@ -68,7 +76,8 @@ class AuthenticationForm extends Component {
         const {getFieldDecorator} = this.props.form
 
         return(
-            <Form onSubmit={this.handleSubmit}>
+        <div>
+            <Form onSubmit={this.handleSubmit} >
                 { this.state.success && (<p> {this.vManager.name} successful!</p>)}
                 { this.state.error && (<p>{this.vManager.name} ERROR!</p>)}
                 
@@ -97,8 +106,24 @@ class AuthenticationForm extends Component {
                     </Button>
                 </Form.Item>
             </Form>
+            
+            <p>If you don't have account, please contact admin.</p>
+        </div>
+            
         )
     }
 }
 
-export default Form.create({ name: "authForm"})(AuthenticationForm)
+
+const mapStateToProps = ({ loggedIn }) => ({ loggedIn })
+
+const mapDispatchToProps = dispatch => {
+    return {
+        runLogin: bindActionCreators(runLogin, dispatch),
+    }
+  }
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Form.create({ name: "authForm"})(AuthenticationForm))
