@@ -1,47 +1,42 @@
-/* eslint-disable */
 import React, { Component } from "react";
-import { connect } from "react-redux";
-
+import {logout} from "../hocs/LoginGate"
 import "../assets/header-css.less";
+import Router from 'next/router'
+import cookie from 'js-cookie';
 
 class User extends Component {
   constructor(props) {
     super(props);
     this.handleLoginClick = this.handleLoginClick.bind(this);
-    this.handleSignupClick = this.handleSignupClick.bind(this);
-    this.state = { login: false };
+    this.handleLogoutClick = this.handleLogoutClick.bind(this);
   }
 
-  handleLoginClick() {
-    this.setState({ login: true });
+  handleLoginClick(){
+    Router.push('/login');
   }
 
-  handleSignupClick() {
-    this.setState({ login: false });
+  handleLogoutClick(){
+    logout();
+    Router.push('/login');
   }
 
   render() {
     let linkRequest;
-    if (this.props.loggedIn) {
+    if (cookie.get('token') !== undefined) {
       linkRequest = (
         <div>
-          {" "}
-          <a>Welcome!</a> <a>Log Out</a>{" "}
+          <a onClick={this.handleLogoutClick}>Log Out</a>
         </div>
       );
     } else {
       linkRequest = (
         <div>
-          <a onClick={this.handleLoginClick}>Log In</a>
-          <a onClick={this.handleSignupClick}>Sign Up</a>
+          <a onClick={this.handleLoginClick}>Please Log In</a>
         </div>
       );
     }
-
     return <div className="User">{linkRequest}</div>;
   }
 }
 
-const mapStateToProps = ({ loggedIn }) => ({ loggedIn });
-
-export default connect(mapStateToProps)(User);
+export default User;

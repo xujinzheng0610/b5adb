@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import { Form, Input, Button } from "antd";
 import fetch from "isomorphic-unfetch";
-import { LOGIN, REGISTER } from "../pages";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { runLogin } from "../store";
+import {login} from "../hocs/LoginGate";
+import Router from 'next/router'
 
 const RegisterFields = props => {
   return (
@@ -20,12 +18,14 @@ const RegisterFields = props => {
 class AuthenticationForm extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       username: "",
       password: "",
       error: false,
       success: false
     };
+
     this.view = {
       login: {
         path: "/signin",
@@ -36,13 +36,9 @@ class AuthenticationForm extends Component {
         name: "Register"
       }
     };
-    if (this.props.view === LOGIN) this.vManager = this.view.login;
+    if (this.props.view === "login") this.vManager = this.view.login;
     else this.vManager = this.view.register;
   }
-
-  updateLogin = () => {
-    this.props.runLogin();
-  };
 
   handleSubmit = e => {
     e.preventDefault();
@@ -58,10 +54,10 @@ class AuthenticationForm extends Component {
         .then(res => res.json())
         .then(data => {
           if (data.token) {
-            localStorage.setItem("b5aDBtoken", data.token);
+            login(data.token)
+            Router.push('/project')
           }
           this.setState({ error: false, success: true });
-          this.updateLogin();
           console.log("success, data returned:", data);
         })
         .catch(err => {
@@ -72,9 +68,7 @@ class AuthenticationForm extends Component {
   };
 
   render() {
-    //console.log(this.props)
     const { getFieldDecorator } = this.props.form;
-
     return (
       <div>
         <Form onSubmit={this.handleSubmit}>
@@ -105,7 +99,7 @@ class AuthenticationForm extends Component {
               />
             )}
           </Form.Item>
-          {this.props.view === REGISTER && (
+          {this.props.view === "register" && (
             <RegisterFields getFieldDecorator={getFieldDecorator} />
           )}
           <Form.Item>
@@ -121,15 +115,4 @@ class AuthenticationForm extends Component {
   }
 }
 
-const mapStateToProps = ({ loggedIn }) => ({ loggedIn });
-
-const mapDispatchToProps = dispatch => {
-  return {
-    runLogin: bindActionCreators(runLogin, dispatch)
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Form.create({ name: "authForm" })(AuthenticationForm));
+export default Form.create({ name: "authForm" })(AuthenticationForm);

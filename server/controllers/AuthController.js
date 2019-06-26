@@ -30,7 +30,8 @@ class AuthController {
   }
 
   signin(req, res, next) {
-    res.status(200).json({ token: tokenForUser(req.user) });
+    const loginToken = tokenForUser(req.user)
+    res.status(200).json({ token: loginToken});
   }
 }
 
