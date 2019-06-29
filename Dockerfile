@@ -1,19 +1,19 @@
-FROM node:8
+FROM node:10.16.0-jessie-slim
 
 # Create app directory
-WORKDIR /src/app
+WORKDIR /app
 
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
-COPY package*.json ./
-
-RUN npm cache clean --force && npm install
-# If you are building your code for production
-# RUN npm ci --only=production
+# COPY package*.json ./
 
 # Bundle app source
-COPY . /src/app
+COPY . /app
+
+RUN npm install
+# If you are building your code for production
+# RUN npm ci --only=production
 
 EXPOSE 8080
 
