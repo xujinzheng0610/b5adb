@@ -1,3 +1,2 @@
 node_modules/
-app/.next/
-yarn.lock
+package-lock.json

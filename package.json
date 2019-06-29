@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon server/index.js",
-    "start": "next build && export NODE_ENV=production && node server/index.js",
+    "start": "export NODE_ENV=production && node server/index.js",
     "build": "next build app"
   },
   "keywords": [],
