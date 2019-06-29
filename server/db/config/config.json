@@ -17,7 +17,7 @@
   "production": {
     "username": "postgres",
     "password": "33779900",
-    "database": "b5a2",
+    "database": "B5A2",
     "host": "127.0.0.1",
     "dialect": "postgres"
   }
