@@ -64,7 +64,7 @@ docker run -it -p 80:8080 -v /root/my-app/config.json:/app/server/db/config/conf
 即可运行应用。在浏览器用`http://公网ip`即可访问之。验证没问题后，Ctrl-C杀掉应用，使用
 
 ```
-docker run -d --restart=always -p 80:8080 -v /root/my-app/config.json:/app/server/db/config/config.json my-app
+docker run -d --restart=always -p 80:8080 -e NODE_ENV=production -v /root/my-app/config.json:/app/server/db/config/config.json my-app
 ```
 
 进行长期部署
