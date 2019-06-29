@@ -22,7 +22,7 @@ en0: flags=8863<UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST> mtu 1500
 	status: active
 ```
 
-### Step 3 Mount db config into docker container
+# Step 3 Mount db config into docker container
 
 在磁盘上新建一个目录，例如`/root/my-app`。在其中新建一个文件`config.json`。
 
