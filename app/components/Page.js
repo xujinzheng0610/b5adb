@@ -1,6 +1,7 @@
-import Link from 'next/link'
-import { connect } from 'react-redux'
-import AddCount from './AddCount'
+import React from "react";
+import Link from "next/link";
+import { connect } from "react-redux";
+import AddCount from "./AddCount";
 
 export default connect(state => state)(
   ({ title, linkTo, lastUpdate, light }) => {
@@ -14,6 +15,6 @@ export default connect(state => state)(
           </Link>
         </nav>
       </div>
-    )
+    );
   }
-)
+);

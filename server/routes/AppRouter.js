@@ -1,5 +1,6 @@
 const Router = require('express').Router
 const AuthController = require("../controllers/AuthController")
+const DataController = require("../controllers/DataController")
 const passport = require('passport')
 const strats = require('../services/passport')
 
@@ -16,6 +17,8 @@ class AppRouter{
     buildRoutes(){
         this.router.post("/signup", AuthController.signup)
         this.router.post("/signin", requireSignIn, AuthController.signin)
+        this.router.get("/project", DataController.getProjectData)
+        this.router.post("/project", DataController.addProjectData)
     }
 }
 

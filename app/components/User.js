@@ -1,48 +1,46 @@
-/* eslint-disable */
-import React, {Component} from 'react'
-import { connect } from 'react-redux'
-
-import "../assets/header-css.less"
+import React, { Component } from "react";
+import {logout} from "../hocs/LoginGate"
+import "../assets/header-css.less";
+import Router from 'next/router'
+import cookie from 'js-cookie';
 
 class User extends Component {
-    constructor(props){
-        super(props)
-        this.handleLoginClick = this.handleLoginClick.bind(this);
-        this.handleSignupClick = this.handleSignupClick.bind(this);
-        this.state = {login: false};
+  constructor(props) {
+    super(props);
+    this.handleLoginClick = this.handleLoginClick.bind(this);
+    this.handleLogoutClick = this.handleLogoutClick.bind(this);
+  }
+
+  handleLoginClick(){
+    Router.push('/login');
+  }
+
+  handleLogoutClick(){
+    logout();
+    Router.push('/login');
+  }
+
+  render() {
+    let linkRequest;
+    if (cookie.get('token') !== undefined) {
+      linkRequest = (
+        <div>
+          <a onClick={this.handleLogoutClick}>Log Out</a>
+        </div>
+      );
+    } else {
+      linkRequest = (
+        <div>
+          <a onClick={this.handleLoginClick}>Please Log In</a>
+        </div>
+      );
     }
-
-    handleLoginClick(){
-        this.setState({login: true});
-    }
-
-    handleSignupClick(){
-        this.setState({login: false});
-    }
-
-    render() {
-        let linkRequest
-        if (this.props.loggedIn) {
-            linkRequest = (<div> <a>Welcome!</a> <a>Log Out</a> </div>)
-        }
-        else {
-            linkRequest = (<div> 
-                <a onClick={this.handleLoginClick}>Log In</a> 
-                <a onClick={this.handleSignupClick}>Sign Up</a> 
-                </div>);
-        }
-
-        return (
-            <div className="User">
-                {linkRequest}
-            </div>
-        )
-    }
-
+    return (
+    <div>
+        <div className="User">{linkRequest}</div>
+    </div>
+    );
+  }
 }
 
-const mapStateToProps = ({ loggedIn }) => ({ loggedIn })
-
-export default connect(
-  mapStateToProps
-)(User)
+export default User

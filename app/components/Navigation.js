@@ -1,43 +1,64 @@
-/* eslint-disable */
-import React, {Component} from 'react'
-import { connect } from 'react-redux'
-import { Menu, Icon } from 'antd';
+import React, { Component } from "react";
+import { Menu, Icon } from "antd";
+import Link from 'next/link';
+import cookie from 'js-cookie';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { updateMenuKey } from '../redux/store'
 
 class Navigation extends Component {
-  constructor(props){
-    super(props)
+  constructor(props) {
+    super(props);
   }
 
-  render() {
+  handleClick = (key) => {
+    
+  }
 
-    let menu
-    if(this.props.loggedIn){
-      menu = 
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}  style={{ paddingTop: 10 }}>
-            <Menu.Item key="1">
-                <Icon type="user" />
-                <span className="nav-text">nav 1</span>
-            </Menu.Item>
-            <Menu.Item key="2">
-                <Icon type="video-camera" />
-                <span className="nav-text">nav 2</span>
-            </Menu.Item>
+  handleClick = e => {
+    console.log("the key is ", e.key)
+    const { updateMenuKey } = this.props
+    updateMenuKey(e.key)
+    // this.setState({
+    //   current: e.key,
+    // });
+  };
+
+  render() {
+    let menu;
+    if (cookie.get('token') !== undefined) {
+      menu = (
+        <Menu
+          theme="dark"
+          mode="inline"
+          selectedKeys={[this.props.selectedKey]}
+          style={{ paddingTop: 10 }}
+          onClick= {this.handleClick}
+        >
+          <Menu.Item key="project">
+            <Link  href='/project' ><a>Project</a></Link>
+          </Menu.Item>
+          <Menu.Item key="floor" > 
+            <Link  href='/floor'><a>Floor</a></Link>
+          </Menu.Item>
         </Menu>
-            
-    }else{
-      menu = ""
+      );
+    } else {
+      menu = "";
     }
 
-    return (
-      <div>
-        {menu}
-      </div>
-    )
+    return <div>{menu}</div>;
   }
 }
 
-const mapStateToProps = ({ loggedIn }) => ({ loggedIn })
+const mapStateToProps = ({selectedKey}) => ({selectedKey}) 
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ updateMenuKey }, dispatch)
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(Navigation)
+
+
