@@ -67,4 +67,10 @@ docker run -it -p 80:8080 -e NODE_ENV=production -v /root/my-app/config.json:/ap
 docker run -d --restart=always -p 80:8080 -e NODE_ENV=production --name=my-app -v /root/my-app/config.json:/app/server/db/config/config.json my-app
 ```
 
-进行长期部署
+进行长期部署。
+
+To kill the container, run
+
+```
+docker rm -f my-app
+```
