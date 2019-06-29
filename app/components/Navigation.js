@@ -2,11 +2,27 @@ import React, { Component } from "react";
 import { Menu, Icon } from "antd";
 import Link from 'next/link';
 import cookie from 'js-cookie';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { updateMenuKey } from '../redux/store'
 
 class Navigation extends Component {
   constructor(props) {
     super(props);
   }
+
+  handleClick = (key) => {
+    
+  }
+
+  handleClick = e => {
+    console.log("the key is ", e.key)
+    const { updateMenuKey } = this.props
+    updateMenuKey(e.key)
+    // this.setState({
+    //   current: e.key,
+    // });
+  };
 
   render() {
     let menu;
@@ -15,14 +31,15 @@ class Navigation extends Component {
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={["1"]}
+          selectedKeys={[this.props.selectedKey]}
           style={{ paddingTop: 10 }}
+          onClick= {this.handleClick}
         >
-          <Menu.Item key="1">
-            <Link className="nav-text" href='/project'><a>Project</a></Link>
+          <Menu.Item key="project">
+            <Link  href='/project' ><a>Project</a></Link>
           </Menu.Item>
-          <Menu.Item key="2"> 
-            <Link className="nav-text" href='/floor'><a>Floor</a></Link>
+          <Menu.Item key="floor" > 
+            <Link  href='/floor'><a>Floor</a></Link>
           </Menu.Item>
         </Menu>
       );
@@ -34,4 +51,14 @@ class Navigation extends Component {
   }
 }
 
-export default Navigation;
+const mapStateToProps = ({selectedKey}) => ({selectedKey}) 
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ updateMenuKey }, dispatch)
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Navigation)
+
+

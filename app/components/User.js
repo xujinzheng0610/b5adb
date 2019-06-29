@@ -35,8 +35,12 @@ class User extends Component {
         </div>
       );
     }
-    return <div className="User">{linkRequest}</div>;
+    return (
+    <div>
+        <div className="User">{linkRequest}</div>
+    </div>
+    );
   }
 }
 
-export default User;
+export default User

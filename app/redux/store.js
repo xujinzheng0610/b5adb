@@ -3,41 +3,29 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import thunkMiddleware from "redux-thunk";
 
 const initialState = {
-  loggedIn: false
+  selectedKey: "project"
 };
 
 export const actionTypes = {
-  LOGIN: "LOGIN",
-  LOGOUT: "LOGOUT"
+  MENUKEY: "MENUKEY",
 };
 
 // REDUCERS
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.LOGIN:
-      console.log("reducer running to change loggedin state to true")
+    case actionTypes.MENUKEY:
       return {
         ...state,
-        loggedIn: true
+        selectedKey: action.key
       };
-    case actionTypes.LOGOUT:
-        console.log("reducer running to change loggedin state to false")
-        return {
-          ...state,
-          loggedIn: false
-        };
     default:
       return state;
   }
 };
 
 // ACTIONS
-export const runLogin = () => dispatch => {
-  return dispatch({ type: actionTypes.LOGIN });
-};
-
-export const runLogout = () => dispatch => {
-  return dispatch({ type: actionTypes.LOGOUT });
+export const updateMenuKey = (key) => dispatch => {
+  return dispatch({ type: actionTypes.MENUKEY, key: key});
 };
 
 export const initStore = (initialState = initialState) => {
