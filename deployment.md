@@ -10,7 +10,7 @@ docker build . -t my-app
 ifconfig
 ```
 
-找到其中类似这样的一段输出，记录其中的inet备用
+找到其中类似这样的一段输出，记录其中的inet备用，下面的栗子中，即`192.168.0.4`
 
 ```
 en0: flags=8863<UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST> mtu 1500
