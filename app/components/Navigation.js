@@ -28,10 +28,10 @@ class Navigation extends Component {
           onClick= {this.handleClick}
         >
           <Menu.Item key="project">
-            <Link  href='/' ><a>Project</a></Link>
+            <Link  href='/' ><a>Retail</a></Link>
           </Menu.Item>
           <Menu.Item key="floor" > 
-            <Link  href='/floor'><a>Floor</a></Link>
+            <Link  href='/floor'><a>Office</a></Link>
           </Menu.Item>
         </Menu>
       );

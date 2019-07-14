@@ -6,7 +6,7 @@ import LayoutDesign from "../../layouts/layoutDesign";
 
 const PageFloor = () => (
   <LayoutDesign>
-    <h3>Floor</h3>
+    <h3>Office</h3>
     
   </LayoutDesign>
 );
