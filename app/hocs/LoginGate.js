@@ -5,7 +5,7 @@ import Router from 'next/router';
 
 export const login = async (token) => {
   cookie.set('token', token, { expires: 1 })
-  Router.push('/project')
+  Router.push('/')
 }
 
 export const logout = () => {

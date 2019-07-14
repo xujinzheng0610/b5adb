@@ -6,6 +6,7 @@ import Project from "../components/Project";
 
 const PageIndex = () => (
   <LayoutDesign>
+    <h3>Project</h3>
     <Project />
   </LayoutDesign>
 );

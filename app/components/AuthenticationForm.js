@@ -55,7 +55,7 @@ class AuthenticationForm extends Component {
         .then(data => {
           if (data.token) {
             login(data.token)
-            Router.push('/project')
+            Router.push('/')
           }
           this.setState({ error: false, success: true });
           console.log("success, data returned:", data);
