@@ -27,7 +27,7 @@
     "next-redux-wrapper": "^3.0.0-alpha.3",
     "null-loader": "^3.0.0",
     "passport": "^0.4.0",
-    "passport-jwt": "^4.0.0",
+    "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
     "pg": "^7.11.0",
     "react": "^16.8.6",
